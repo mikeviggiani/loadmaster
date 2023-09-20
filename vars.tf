@@ -113,7 +113,7 @@ variable "lm_market_details" {
     name           = "basic-byol"
     product        = "vlm-azure"
     plan_publisher = "kemptech"
-    version        = "7.2.480117992"
+    version        = "latest"
   }
 }
 
