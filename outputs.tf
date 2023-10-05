@@ -5,6 +5,6 @@ output "private_ip_addresses" {
   }
 }
 
-output "public_addresses" {
-  value = azurerm_public_ip.public_ip.ip_address
-}
+#output "public_addresses" {
+#  value = azurerm_public_ip.public_ip.ip_address
+#}
