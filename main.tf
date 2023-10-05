@@ -24,23 +24,7 @@ resource "azurerm_network_interface" "iface" {
   resource_group_name = var.resource_group_name
 
   ip_configuration {
-    name                          = "ipconfig1"
-    subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "Dynamic"
-    primary                       = true
-  }
-  ip_configuration {
-    name                          = "ipconfig2"
-    subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "Dynamic"
-  }
-  ip_configuration {
-    name                          = "ipconfig3"
-    subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "Dynamic"
-  }
-  ip_configuration {
-    name                          = "ipconfig4"
+    name                          = "ipcon${count.index}"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
   }
@@ -168,5 +152,3 @@ resource "azurerm_linux_virtual_machine" "vms" {
 
   disable_password_authentication = false
 }
-
-
