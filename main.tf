@@ -120,35 +120,28 @@ resource "azurerm_lb_backend_address_pool" "lm_address_pool" {
 }
 
 resource "azurerm_linux_virtual_machine" "vms" {
-  count                            = var.is_ha ? 2 : 1
-  name                             = "${var.prefix}-${count.index}"
-  location                         = var.location
-  resource_group_name              = var.resource_group_name
-  network_interface_ids            = ["${azurerm_network_interface.iface[count.index].id}"]
-  vm_size                          = var.vm_size
-  availability_set_id              = var.is_ha ? azurerm_availability_set.availability_set[0].id : null
-  delete_os_disk_on_termination    = true
-  delete_data_disks_on_termination = true
+  count                 = var.is_ha ? 2 : 1
+  name                  = "${var.prefix}-${count.index}"
+  location              = var.location
+  resource_group_name   = var.resource_group_name
+  network_interface_ids = ["${azurerm_network_interface.iface[count.index].id}"]
+  size                  = var.vm_size
+  availability_set_id   = var.is_ha ? azurerm_availability_set.availability_set[0].id : null
 
-  storage_image_reference {
+  os_disk {
+    name            = "${var.prefix}${count.index}"
+    caching         = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    create_option   = "FromImage"
+  }
+
+  source_image_reference {
     publisher = var.lm_market_details.publisher
     offer     = var.lm_market_details.offer
     sku       = var.lm_market_details.sku
     version   = var.lm_market_details.version
   }
 
-  plan {
-    name      = var.lm_market_details.name
-    publisher = var.lm_market_details.plan_publisher
-    product   = var.lm_market_details.product
-  }
-
-  os_disk {
-    name              = "${var.prefix}${count.index}"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
-  }
   admin_username = var.admin_username
   admin_password = var.admin_password
 
