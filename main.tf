@@ -40,7 +40,7 @@ resource "azurerm_network_interface" "iface" {
     private_ip_address_allocation = "Dynamic"
   }
   ip_configuration {
-    name                          = "ipconfig4}"
+    name                          = "ipconfig4"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
   }
