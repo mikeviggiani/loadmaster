@@ -6,16 +6,16 @@ resource "azurerm_availability_set" "availability_set" {
   managed             = var.av_set_managed
 }
 
-resource "azurerm_public_ip" "public_ip" {
-  name                = "${var.prefix}-lm-ip"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  allocation_method   = var.allocation_method
-  tags = {
-    for tag in keys(var.public_ip_tags) :
-    tag => var.public_ip_tags[tag]
-  }
-}
+#resource "azurerm_public_ip" "public_ip" {
+#  name                = "${var.prefix}-lm-ip"
+#  location            = var.location
+#  resource_group_name = var.resource_group_name
+#  allocation_method   = var.allocation_method
+#  tags = {
+#    for tag in keys(var.public_ip_tags) :
+#    tag => var.public_ip_tags[tag]
+#  }
+#}
 
 resource "azurerm_network_interface" "iface" {
   count               = var.is_ha ? 2 : 1
@@ -27,7 +27,6 @@ resource "azurerm_network_interface" "iface" {
     name                          = "ipcon${count.index}"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = length(var.vms_public_ip) > 0 ? var.vms_public_ip["iface${count.index}"].id : (var.is_ha ? "" : azurerm_public_ip.public_ip.id)
   }
 }
 
@@ -47,8 +46,9 @@ resource "azurerm_lb" "azure_lb" {
   resource_group_name = var.resource_group_name
 
   frontend_ip_configuration {
-    name                 = "${var.prefix}publicIP"
-    public_ip_address_id = length(var.azurelb_public_ip) > 0 ? var.azurelb_public_ip.id : azurerm_public_ip.public_ip.id
+    name                 = "${var.prefix}IP"
+    subnet_id            = var.subnet_id
+    private_ip_address_allocation = "Dynamic"
   }
 }
 
