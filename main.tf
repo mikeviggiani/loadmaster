@@ -139,12 +139,12 @@ resource "azurerm_linux_virtual_machine" "vms" {
     offer     = var.lm_market_details.offer
     sku       = var.lm_market_details.sku
     version   = var.lm_market_details.version
+  }
 
-    plan {
-      publisher = var.lm_market_details.publisher
-      product   = var.lm_market_details.offer
-      name      = var.lm_market_details.sku
-    }
+  plan {
+    publisher = var.lm_market_details.publisher
+    product   = var.lm_market_details.offer
+    name      = var.lm_market_details.sku
   }
 
   admin_username = var.admin_username
