@@ -132,7 +132,6 @@ resource "azurerm_linux_virtual_machine" "vms" {
     name            = "${var.prefix}${count.index}"
     caching         = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    create_option   = "FromImage"
   }
 
   source_image_reference {
@@ -147,4 +146,5 @@ resource "azurerm_linux_virtual_machine" "vms" {
 
   disable_password_authentication = false
 }
+
 
