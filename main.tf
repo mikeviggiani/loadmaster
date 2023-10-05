@@ -27,6 +27,7 @@ resource "azurerm_network_interface" "iface" {
     name                          = "ipconfig1"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
+    primary                       = true
   }
   ip_configuration {
     name                          = "ipconfig2"
