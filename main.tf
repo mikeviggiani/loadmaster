@@ -119,7 +119,7 @@ resource "azurerm_lb_backend_address_pool" "lm_address_pool" {
   name                = "${var.prefix}-backendpool"
 }
 
-resource "azurerm_virtual_machine" "vms" {
+resource "azurerm_linux_virtual_machine" "vms" {
   count                            = var.is_ha ? 2 : 1
   name                             = "${var.prefix}-${count.index}"
   location                         = var.location
@@ -143,20 +143,15 @@ resource "azurerm_virtual_machine" "vms" {
     product   = var.lm_market_details.product
   }
 
-  storage_os_disk {
+  os_disk {
     name              = "${var.prefix}${count.index}"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
-  os_profile {
-    computer_name  = "${var.prefix}-lm-${count.index}"
-    admin_username = var.admin_username
-    admin_password = var.admin_password
-  }
+  admin_username = var.admin_username
+  admin_password = var.admin_password
 
-  os_profile_linux_config {
-    disable_password_authentication = false
-  }
+  disable_password_authentication = false
 }
 
