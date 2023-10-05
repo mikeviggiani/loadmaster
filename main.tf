@@ -24,7 +24,22 @@ resource "azurerm_network_interface" "iface" {
   resource_group_name = var.resource_group_name
 
   ip_configuration {
-    name                          = "ipcon${count.index}"
+    name                          = "ipconfig1"
+    subnet_id                     = var.subnet_id
+    private_ip_address_allocation = "Dynamic"
+  }
+  ip_configuration {
+    name                          = "ipconfig2"
+    subnet_id                     = var.subnet_id
+    private_ip_address_allocation = "Dynamic"
+  }
+  ip_configuration {
+    name                          = "ipconfig3"
+    subnet_id                     = var.subnet_id
+    private_ip_address_allocation = "Dynamic"
+  }
+  ip_configuration {
+    name                          = "ipconfig4}"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
   }
